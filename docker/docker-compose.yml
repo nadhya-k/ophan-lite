@@ -1,0 +1,48 @@
+# services is top level key which tells docker compose that everything indented below is a container that needs to be run.
+services: #container name
+
+# elasticsearch search engine container name to use as host name on internal docker network. Backend reaches this network through `http://elasticsearch:9200` when running inside Docker.
+# image is equivalent of app with `docker.elastic.co` being Elastic's official container registry.
+  elasticsearch: #container name
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.0 #pre-built software to use in container.
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+# `discovery.type=single-node` tells Elasticsearch not to look for other Elasticsearch instances to form a cluster.
+# `xpack.security.enabled=false` disables the built-in authentication system so local environment can query Elasticsearch without the need for usernames and passwords.
+# ports instructs computer to map a port to a port in docker. Port 9200 is Elasticsearch's default HTTP port. This mapping means when our back-end calls `http://localhost:9200`, Docker routes that request into the container.
+    ports: #container name
+      - "9200:9200"
+
+# volumes is used to mount a storage volume inside the docker container as a dedicated storage area on hard drive that docker manages between restarts.
+    volumes: #container name
+      - es_data:/usr/share/elasticsearch/data
+
+# PostgreSQL is a relational database that stores data in structured rows and column format to be queried using SQL.
+# Articles and page view records are stored using PostgreSQL.
+  postgres: #container name
+
+# image used from Docker is the official PostgreSQL version 16.
+    image: postgres:16
+
+# Set required PostgreSQL startup settings by naming the database to connect to `orphan-lite`, set username for backend connection to `db.ts`, and set password for user attempting backend connection.
+# In practice within the production environment the password would not be hardcoded and would be stored in a password manager.
+    environment:
+      POSTGRES_DB: ophan-lite
+      POSTGRES_USER: guardian
+      POSTGRES_PASSWORD: secret
+
+# ports instructs computer to map a port to a port in docker. Port 5432 is PostgreSQL's default port.
+# Port 5432 is what allows Node.js back-end running on local machine to connect to PostgreSQL running inside Docker.
+    ports:
+      - "5432:5432"
+
+# volumes is used to mount a storage volume inside the docker container as a dedicated storage area on hard drive that docker manages between restarts.
+# `pg-data` is the name of the volume and `/var/lib/postgresql/data` is where PostgreSQL stores all its database files inside the container.
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+# Finally, the two volumes referenced in services above are declared here. Docker will not start if a volume is referenced but not declared.
+volumes:
+  es_data:
+  pg_data:
