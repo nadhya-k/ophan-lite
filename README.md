@@ -30,36 +30,41 @@ Containers
 
 ## Section 3 - Project structure
 
+```
 ophan-lite/
 |
-|---> backend/
+|___ backend/
+|     |
+|     |___src/
+|     |    |
+|     |    |___ index.ts - Main Express server, REST routes, WebSocket
+|     |    |___ db.ts - PostgreSQL connection pool and table setup
+|     |    |___ search.ts - Elasticsearch client, indexing, search queries
+|     |
+|     |
+|     |___ package.json
+|     |
+|     |___ tsconfig.json
 |
-|---|---> src/
 |
-|---|---|---> index.ts - Main Express server, REST routes, WebSocket
-|---|---|---> db.ts - PostgreSQL connection pool and table setup
-|---|---|---> search.ts - Elasticsearch client, indexing, search queries
+|___ frontend/
+|     |___src/
+|     |    |
+|     |    |___ App.tsx - React dashboard — chart, search, live table
+|     |    |___ main.tsx - React entry point
+|     |    |___ App.css - Component styles (empty - inline styles used)
+|     |    |___ index.css - Global CSS reset
+|     |
+|     |
+|     |___ index.html
+|     |___ package.json
 |
-|---|---> package.json
 |
-|---|---> tsconfig.json
-|
-|---> frontend/
-|
-|---|---> src/
-|
-|---|---|---> App.tsx - React dashboard — chart, search, live table
-|---|---|---> main.tsx - React entry point
-|---|---|---> App.css - Component styles (empty - inline styles used)
-|---|---|---> index.css - Global CSS reset
-|
-|---|---> index.html
-|
-|---|---> package.json
-|
-|---> docker/
-|
-|---|---> docker-compose.yml - Elasticsearch and PostgreSQL containers
+|___ docker/
+|     |
+|     |___ docker-compose.yml - Elasticsearch and PostgreSQL containers
+
+```
 
 ---
 
