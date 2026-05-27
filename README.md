@@ -90,7 +90,7 @@ Extension Purpose - TypeScript error detection
 Publisher ID - `esbenp.prettier-vscode` 
 Extension Purpose - Auto-format on save 
 
--- GitLens — Git Supercharged
+-- GitLens - Git Supercharged
 Publisher ID -  `eamodio.gitlens` 
 Extension Purpose - Git history and blame
 
@@ -112,8 +112,10 @@ You will then need to open two additional terminals to run the frontend (Step 3)
 ### Section 5 - Step 1 - Clone the repository
 
 ```bash
+
 git clone <your-repo-url>
 cd ophan-lite
+
 ```
 
 ### Section 5 - Step 2 - Start the databases
@@ -121,14 +123,18 @@ cd ophan-lite
 First make sure Docker Desktop is open and showing Engine running, then:
 
 ```bash
+
 cd docker
 docker compose up -d
+
 ```
 
 Verify both containers are running:
 
 ```bash
+
 docker compose ps
+
 ```
 
 You should see `elasticsearch` and `postgres` both with status `running`.
@@ -138,9 +144,11 @@ You should see `elasticsearch` and `postgres` both with status `running`.
 Open a new terminal tab, then:
 
 ```bash
+
 cd backend
 npm install
 npm run dev
+
 ```
 
 When ready you will see:
@@ -150,6 +158,7 @@ Database tables ready
 Elasticsearch index ready
 Seeded sample articles
 API running on http://localhost:3001
+
 ```
 
 ### Section 5 - Step 4 - Start the front-end
@@ -157,16 +166,20 @@ API running on http://localhost:3001
 Open another new terminal tab, then:
 
 ```bash
+
 cd frontend
 npm install
 npm run dev
+
 ```
 
 When ready you will see:
 
 ```
+
 VITE ready
 → Local: http://localhost:5173/
+
 ```
 
 ### Section 5 - Step 5 - Open the dashboard
@@ -187,7 +200,9 @@ The back-end exposes three REST endpoints for articles, analytics, and search, a
 This returns all articles ordered by view count descending. Includes a real-time `view_count` from a SQL aggregate JOIN.
 
 ```bash
+
 curl http://localhost:3001/api/articles
+
 ```
 
 Example response:
@@ -209,12 +224,15 @@ Example response:
 Returns total views, unique countries, and last view time grouped by section. Mirrors the kind of BigQuery aggregate query the Guardian runs on Ophan data.
 
 ```bash
+
 curl http://localhost:3001/api/analytics
+
 ```
 
 Example response:
 
 ```json
+
 [
   {
     "section": "sport",
@@ -223,6 +241,7 @@ Example response:
     "last_view": "2025-05-15T20:44:00.000Z"
   }
 ]
+
 ```
 
 ### Section 6 - Step 3 - GET /api/search?q=\<query\>&section=\<optional\>
@@ -230,8 +249,10 @@ Example response:
 Full-text search powered by Elasticsearch. The `q` parameter is required. The `section` parameter is optional and filters results to a specific site section.
 
 ```bash
+
 curl "http://localhost:3001/api/search?q=climate"
 curl "http://localhost:3001/api/search?q=goal&section=sport"
+
 ```
 
 ### Section 6 - Step 4 - POST /api/articles
@@ -239,9 +260,11 @@ curl "http://localhost:3001/api/search?q=goal&section=sport"
 Creates a new article. Saves to PostgreSQL and indexes in Elasticsearch simultaneously so it is immediately searchable.
 
 ```bash
+
 curl -X POST http://localhost:3001/api/articles \
   -H "Content-Type: application/json" \
   -d '{"title":"New article","section":"culture","url":"/culture/5"}'
+
 ```
 
 ### Section 6 - Step 5 - WebSocket ws://localhost:3001
@@ -251,6 +274,7 @@ Connect to receive live PAGE_VIEW events. A new event is broadcast every 1.5 sec
 Example message received:
 
 ```json
+
 {
   "type": "PAGE_VIEW",
   "data": {
@@ -261,6 +285,7 @@ Example message received:
     "viewed_at": "2025-05-15T20:44:01.000Z"
   }
 }
+
 ```
 
 ---
@@ -348,14 +373,18 @@ Stop the front-end and back-end servers by pressing `Ctrl+C` in each terminal ta
 Stop the Docker containers:
 
 ```bash
+
 cd docker
 docker compose down
+
 ```
 
 To stop and delete all stored data (articles, page views, search index):
 
 ```bash
+
 docker compose down -v
+
 ```
 
 The `-v` flag removes the named volumes. Omit it if you wantmto keep your data for next time.
@@ -363,6 +392,7 @@ The `-v` flag removes the named volumes. Omit it if you wantmto keep your data f
 ---
 
 # Recommended next steps
+
 Additions to develop and strengthen the dashboard project:
 
 -- Add a .env file and move all credentials out of the source code
