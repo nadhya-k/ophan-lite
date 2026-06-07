@@ -37,10 +37,15 @@ ophan-lite/
 |     |
 |     |___src/
 |     |    |
+|     |    |___ __tests__/
+|     |    |        |___ db.test.ts
+|     |    |        |___ search.test.ts
+|     |    |
 |     |    |___ index.ts - Main Express server, REST routes, WebSocket
 |     |    |___ db.ts - PostgreSQL connection pool and table setup
 |     |    |___ search.ts - Elasticsearch client, indexing, search queries
 |     |
+|     |___ .env.example
 |     |
 |     |___ package.json
 |     |
@@ -178,7 +183,7 @@ When ready you will see:
 ```
 
 VITE ready
-→ Local: http://localhost:5173/
+-> Local: http://localhost:5173/
 
 ```
 
@@ -212,7 +217,7 @@ Example response:
   {
     "id": 1,
     "title": "Climate summit reaches historic deal",
-    "section": "environment",
+    "section": "Environment",
     "url": "/environment/1",
     "view_count": 42
   }
@@ -391,12 +396,53 @@ The `-v` flag removes the named volumes. Omit it if you wantmto keep your data f
 
 ---
 
-# Recommended next steps
+
+## Section 10 - Testing
+
+This project uses [Jest](https://jestjs.io/) and [ts-jest](https://kulshekhar.github.io/ts-jest/) for unit testing the backend.
+
+Tests cover the database initialisation (`db.ts`) and Elasticsearch search functions (`search.ts`). 
+
+External dependencies (PostgreSQL and Elasticsearch) are mocked, so no running database or Elasticsearch instance is needed to run the tests.
+
+## Section 10 - Section 1 - Running the Tests
+
+```bash
+cd backend
+npm test
+```
+
+---
+
+## Section 10 - Section 2 - Environment Variables
+
+Credentials and configuration are loaded from a `.env` file in the `backend/` directory. A template is provided as `.env.example`.
+
+## Section 10 - Section 3 - Set Up
+
+1. Copy the example file:
+
+```bash
+cp backend/.env.example backend/.env
+```
+
+2. Fill in your values in `backend/.env`:
+
+```
+PG_HOST=
+PG_DB=
+PG_USER=
+PG_PASSWORD=
+```
+
+The `.env` file is excluded from version control via `.gitignore` and should never be committed.
+
+
+
+## Section 11 - Recommended next steps
 
 Additions to develop and strengthen the dashboard project:
 
--- Add a .env file and move all credentials out of the source code
--- Write Jest unit tests for the search and database functions
 -- Add a Dockerfile for the back-end to make it fully containerised
 -- Deploy the back-end to AWS EC2 or ECS and the front-end to S3
 -- Add a line chart showing views over time using the viewed_at timestamps
