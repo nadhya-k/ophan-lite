@@ -1,12 +1,10 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { WebSocketServer } from "ws";
 import { createServer } from "http";
-import dotenv from "dotenv";
 import { pool, initDb } from "./db";
 import { esClient, initSearch, indexArticle, searchArticles } from "./search";
-
-dotenv.config();
 
 const app = express();
 app.use(cors()); // Allow React frontend to call API
@@ -115,10 +113,10 @@ async function start() {
     const { rows } = await pool.query("SELECT COUNT(*) FROM articles");
     if(parseInt(rows[0].count) === 0) {
         const seeds = [
-            { title: "Climate summit reaches historic deal", section: "environment", url: "/environment/1" },
-            { title: "Premier League: City win again",       section: "sport",        url: "/sport/1" },
-            { title: "Budget 2025: what it means for you",  section: "politics",     url: "/politics/1" },
-            { title: "Breakthrough in cancer research",     section: "science",      url: "/science/1" },
+            { title: "Climate summit reaches historic deal", section: "Environment", url: "/environment/1" },
+            { title: "Premier League: City win again",       section: "Sport",        url: "/sport/1" },
+            { title: "Budget 2025: what it means for you",  section: "Politics",     url: "/politics/1" },
+            { title: "Breakthrough in cancer research",     section: "Science",      url: "/science/1" },
         ];
         for (const s of seeds) {
             const { rows: r } = await pool.query(
